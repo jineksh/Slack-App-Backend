@@ -1,4 +1,6 @@
-import AppError from '../erros/AppError.js'
+import { StatusCodes } from 'http-status-codes';
+
+import AppError from '../erros/AppError.js';
 
 class CrudRepo {
 
@@ -12,7 +14,7 @@ class CrudRepo {
             return result;
         } catch (error) {
             console.log(error);
-            throw new AppError(error.message, 500, 'CreateError', error);
+            throw new AppError(error.message, StatusCodes.INTERNAL_SERVER_ERROR, 'CreateError', error);
         }
     }
 
@@ -20,12 +22,12 @@ class CrudRepo {
         try {
             const result = await this.model.findByIdAndDelete(id);
             if (!result) {
-                throw new AppError('Resource not found', 404, 'NotFound');
+                throw new AppError('Resource not found', StatusCodes.NOT_FOUND, 'NotFound');
             }
             return result;
         } catch (error) {
             console.log(error);
-            throw error instanceof AppError ? error : new AppError(error.message, 500, 'DeleteError', error);
+            throw error instanceof AppError ? error : new AppError(error.message, StatusCodes.INTERNAL_SERVER_ERROR, 'DeleteError', error);
         }
     }
 
@@ -33,12 +35,12 @@ class CrudRepo {
         try {
             const result = await this.model.findByIdAndUpdate(id, data, { new: true });
             if (!result) {
-                throw new AppError('Resource not found', 404, 'NotFound');
+                throw new AppError('Resource not found', StatusCodes.NOT_FOUND, 'NotFound');
             }
             return result;
         } catch (error) {
             console.log(error);
-            throw error instanceof AppError ? error : new AppError(error.message, 500, 'UpdateError', error);
+            throw error instanceof AppError ? error : new AppError(error.message, StatusCodes.INTERNAL_SERVER_ERROR, 'UpdateError', error);
         }
     }
 
@@ -46,14 +48,14 @@ class CrudRepo {
         try {
             const result = await this.model.findById(id);
             if (!result) {
-                throw new AppError('Resource not found', 404, 'NotFound');
+                throw new AppError('Resource not found', StatusCodes.NOT_FOUND, 'NotFound');
             }
             return result;
         } catch (error) {
             console.log(error);
-            throw error instanceof AppError ? error : new AppError(error.message, 500, 'GetError', error);
+            throw error instanceof AppError ? error : new AppError(error.message, StatusCodes.INTERNAL_SERVER_ERROR, 'GetError', error);
         }
     }
 }
 
-export default CrudRepo;
+export default CrudRepo
