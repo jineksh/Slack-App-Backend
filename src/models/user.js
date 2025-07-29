@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcrypt'
 import mongoose from 'mongoose'
 
 const userSchema = new mongoose.Schema({
@@ -40,6 +40,10 @@ userSchema.pre('save', async function (next) {
     user.avatar = `http://robohash.org/${user.name}`;
     next()
 })
+
+userSchema.methods.checkPassword = async function (plainPassword) {
+    return await bcrypt.compare(plainPassword, this.password);
+};
 
 const User = mongoose.model('User', userSchema)
 export default User;

@@ -1,6 +1,6 @@
-import AppError from "../erros/AppError";
-import User from '../models/user';
-import CrudRepo  from "./crudRepository";
+import AppError from "../erros/AppError.js";
+import User from '../models/user.js';
+import CrudRepo  from "./crudRepository.js";
 
 class userRepo extends CrudRepo {
 

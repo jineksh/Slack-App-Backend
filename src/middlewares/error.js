@@ -41,6 +41,7 @@ const globalErrorHandler = (err, req, res) => {
 
   //  Fallback (unexpected error)
   return errorResponse(res, "Internal Server Error", StatusCodes.INTERNAL_SERVER_ERROR, err.name || "UnknownError");
+ 
 };
 
 export default globalErrorHandler;
