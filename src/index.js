@@ -3,6 +3,7 @@ import express from 'express'
 
 import connectDb from './config/db.js';
 import config from './config/server.js';
+import globalErrorHandler from './middlewares/error.js'
 import apiRoutes from './routes/index.js'
 
 
@@ -19,6 +20,7 @@ const server = async() =>{
     })
 
     app.use('/api',apiRoutes);
+    app.use(globalErrorHandler);
 
     app.listen(config.PORT,() => {
         console.log('Server is running on port 3001');
