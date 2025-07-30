@@ -6,7 +6,7 @@ const service = new userService();
 
 async function signUp(req,res){
     try {
-        const user = await service.create({
+        const user = await service.singUp({
             email : req.body.email,
             password : req.body.password,
             name : req.body.name

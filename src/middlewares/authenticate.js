@@ -1,4 +1,5 @@
 import jwt  from 'jsonwebtoken';
+
 import config from '../config/server.js'
 
 const authenticateToken = (req, res, next) => {
@@ -15,8 +16,9 @@ const authenticateToken = (req, res, next) => {
             return res.status(403).json({ error: 'Invalid token.' });
         }
         req.user = user;
+        console.log(req.user);
         next();
     });
 }
 
-module.exports = authenticateToken;
+export default authenticateToken;
