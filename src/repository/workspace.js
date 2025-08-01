@@ -97,7 +97,7 @@ class workSpaceRepo extends CrudRepo {
             }
 
             const repository = new channelRepo();
-            const channel = await repository.create(channelname);
+            const channel = await repository.create({channelname});
 
             workspace.channels.push(channel._id);
             await workspace.save();

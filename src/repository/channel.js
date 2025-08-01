@@ -1,5 +1,5 @@
-import Channel from "../models/channel";
-import CrudRepo from "./crudRepository";
+import Channel from "../models/channel.js";
+import CrudRepo from "./crudRepository.js";
 
 class channelRepo extends CrudRepo{
     constructor(){
