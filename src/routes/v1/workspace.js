@@ -9,5 +9,16 @@ const router = express.Router();
 
 router.post('/',authenticateToken,workspaceController.createWorkspace);
 
+router.delete('/:workspaceid',authenticateToken,workspaceController.DeleteWorkspace);
+
+router.get('/:workspaceid',authenticateToken,workspaceController.getWorkSpacebyId);
+
+router.get('/join/:joincode',authenticateToken,workspaceController.getWorkSpacebyJoinCode);
+
+router.put('/:workspaceid',authenticateToken,workspaceController.updateWorkSpace);
+
+router.put('/:workspaceid/channel',authenticateToken,workspaceController.addChannel);
+
+router.put('/:workspaceid/member',authenticateToken,workspaceController.addMember);
 
 export default router;
