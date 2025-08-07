@@ -5,6 +5,7 @@ import { Server } from 'socket.io';
 
 import connectDb from './config/db.js';
 import config from './config/server.js';
+import roomHandler from './controllers/channeljoin.js';
 import messageHandler from './controllers/socketapis.js';
 import globalErrorHandler from './middlewares/error.js'
 import apiRoutes from './routes/index.js'
@@ -36,6 +37,7 @@ const startserver = async() =>{
        
 
         messageHandler(io,socket);
+        roomHandler(io,socket);
     })
 
     
