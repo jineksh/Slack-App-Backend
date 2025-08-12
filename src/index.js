@@ -45,11 +45,6 @@ const startserver = async() =>{
     
 
 
-
-
-
-
-
     server.listen(config.PORT,() => {
         console.log('Server is running on port 3001');
         connectDb();

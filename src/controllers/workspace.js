@@ -202,6 +202,27 @@ const addMember = async (req, res) => {
     }
 }
 
+const getAllWorkspacesByUserId = async (req, res) => {
+    try {
+        const workspaces = await service.getAllWorkspacesByUserId(req.user.id);
+        return successResponse(
+            res,
+            workspaces,
+            'Workspaces retrieved successfully',
+            StatusCodes.OK,
+        )
+    } catch (error) {
+        console.log(error);
+        return errorResponse(
+            res,
+            error?.message || 'Something went wrong',
+            error?.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
+            error?.name || null,
+            error?.explanation || null
+        )
+    }
+}
+
 
 export default {
     createWorkspace,
@@ -210,5 +231,6 @@ export default {
     getWorkSpacebyJoinCode,
     updateWorkSpace,
     addChannel,
-    addMember
+    addMember,
+    getAllWorkspacesByUserId
 };

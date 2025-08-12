@@ -9,6 +9,8 @@ const router = express.Router();
 
 router.post('/',authenticateToken,workspaceController.createWorkspace);
 
+router.get('/',authenticateToken,workspaceController.getAllWorkspacesByUserId);
+
 router.delete('/:workspaceid',authenticateToken,workspaceController.DeleteWorkspace);
 
 router.get('/:workspaceid',authenticateToken,workspaceController.getWorkSpacebyId);

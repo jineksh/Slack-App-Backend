@@ -175,5 +175,18 @@ class WorkSpaceService extends CrudService {
         }
     }
 
+    async getAllWorkspacesByUserId(userId) {
+        try {
+            const workspaces = await this.repository.getAllWorkSpaceByMember(userId);
+            return workspaces;
+        } catch (error) {
+            console.log(error);
+            if (error instanceof AppError) {
+                throw error;
+            }
+            throw new AppError("Failed to get workspaces", 500, "GetWorkspacesByUserIdError", error);
+        }
+    }
+
 }
 export default WorkSpaceService;
