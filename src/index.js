@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser'
+import cors from 'cors'
 import express from 'express'
 import {createServer} from 'http'
 import { Server } from 'socket.io';
@@ -20,6 +21,7 @@ const startserver = async() =>{
     const io = new Server(server);
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(cors());
     
     app.get('/ping',(req,res,next)=>{
         res.send('pong');
