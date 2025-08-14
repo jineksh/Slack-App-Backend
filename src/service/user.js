@@ -45,7 +45,7 @@ class userService extends CrudService {
                 throw new AppError('Invalid password', StatusCodes.UNAUTHORIZED, 'InvalidPassword');
             }
             const token = generateToken(user);
-            return token;
+            return {token,user};
         } catch (error) {
             throw error instanceof AppError
                 ? error

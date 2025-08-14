@@ -28,7 +28,11 @@ async function  login(req,res) {
         try {
         const { email, password } = req.body;
         const token = await service.login(email, password);
-        return successResponse(res, token, "Login successful", StatusCodes.OK);
+        const data = {
+            user: token.user,
+            token: token.token
+        }
+        return successResponse(res, data, "Login successful", StatusCodes.OK);
     } catch (error) {
         return errorResponse(
             res,
