@@ -23,4 +23,8 @@ router.put('/:workspaceid/channel',authenticateToken,workspaceController.addChan
 
 router.put('/:workspaceid/member',authenticateToken,workspaceController.addMember);
 
+router.post('/:workspaceid/join',authenticateToken,workspaceController.varifyJoinCode);
+
+router.put('/:workspaceid/join',authenticateToken,workspaceController.joinWorkspace);
+
 export default router;

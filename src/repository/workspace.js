@@ -10,6 +10,7 @@ class workSpaceRepo extends CrudRepo {
 
     constructor() {
         super(Workspace);
+        this.channelRepo = new channelRepo();
     }
 
     async getWorkSpacebyJoinCode(joincode) {
@@ -82,7 +83,7 @@ class workSpaceRepo extends CrudRepo {
         }
     }
 
-    async addChannel(workspaceId, channelname) {
+    async addChannel(workspaceId, name) {
         try {
             const workspace = await Workspace.findById(workspaceId).populate('channels');
 
@@ -90,14 +91,14 @@ class workSpaceRepo extends CrudRepo {
                 throw new AppError('Workspace not found', StatusCodes.NOT_FOUND, 'NotFound');
             }
 
-            const isPresent = workspace.channels.find((channel) => channel.name == channelname);
+            const isPresent = workspace.channels.find((channel) => channel.name == name);
 
             if (isPresent) {
                 throw new AppError('Channel is already present', StatusCodes.FORBIDDEN, 'ChannelAlreadyExists');
             }
 
             const repository = new channelRepo();
-            const channel = await repository.create({channelname});
+            const channel = await repository.create({ name });
 
             workspace.channels.push(channel._id);
             await workspace.save();
@@ -138,7 +139,29 @@ class workSpaceRepo extends CrudRepo {
 
     }
 
+    async getWorkspaceByDetails(id) {
+        try {
+            console.log(id);
+            const workspace = await Workspace.findById(id).
+            populate('members', 'name email avatar').populate('channels', 'id name');
 
+            if (!workspace) {
+                throw new AppError("Workspace not found", StatusCodes.NOT_FOUND, "NotFound");
+            }
+
+            return workspace;
+        } catch (error) {
+            throw error instanceof AppError
+                ? error
+                : new AppError(
+                    error.message,
+                    StatusCodes.INTERNAL_SERVER_ERROR,
+                    'GetWorkspaceByDetailsError',
+                    error
+                );
+        }
+
+    }
 
 }
 

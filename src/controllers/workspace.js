@@ -57,6 +57,7 @@ const DeleteWorkspace = async (req, res) => {
 
 const getWorkSpacebyId = async (req, res) => {
     try {
+        console.log(req.params.workspaceid, req.user.id);
         const workspace = await service.getWorkSpacebyId(req.params.workspaceid, req.user.id);
         if (!workspace) {
             return errorResponse(
@@ -115,6 +116,7 @@ const getWorkSpacebyJoinCode = async (req, res) => {
 
 const updateWorkSpace = async (req, res) => {
     try {
+        console.log(req.params.workspaceid, req.body);
         const workspace = await service.updateWorkSpace(req.params.workspaceid, req.body, req.user.id);
         if (!workspace) {
             return errorResponse(
@@ -143,7 +145,9 @@ const updateWorkSpace = async (req, res) => {
 }
 
 const addChannel = async (req, res) => {
+    
     try {
+        console.log(req.params.workspaceid, req.body.name, req.user.id);
         const workspace = await service.addChannel(req.params.workspaceid, req.body.name, req.user.id);
         if (!workspace) {
             return errorResponse(
@@ -223,6 +227,63 @@ const getAllWorkspacesByUserId = async (req, res) => {
     }
 }
 
+const varifyJoinCode = async(req,res)=>{
+    try {
+        const response = await service.varifyJoinCode(req.params.workspaceid,req.body.joincode);
+        if (!response) {
+            return errorResponse(
+                res,
+                'JoinCode not matched',
+                StatusCodes.NOT_FOUND,
+            );
+        }
+        return successResponse(
+            res,
+            response,
+            'JoinCode matched',
+            StatusCodes.OK,
+        )
+    } catch (error) {
+        console.log(error);
+        return errorResponse(
+            res,
+            error?.message || 'Something went wrong',
+            error?.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
+            error?.name || null,
+            error?.explanation || null
+        )
+    }
+}
+
+const joinWorkspace = async (req, res) => {
+    try {
+        console.log(req.params.workspaceid, req.body.joincode, req.user.id);
+        const workspace = await service.joinWorkspace(req.params.workspaceid,req.body.joincode, req.user.id);
+        if (!workspace) {
+            return errorResponse(
+                res,
+                'Workspace not found',
+                StatusCodes.NOT_FOUND,
+            );
+        }
+        return successResponse(
+            res,
+            workspace,
+            'Joined workspace successfully',
+            StatusCodes.OK,
+        );
+    } catch (error) {
+        console.log(error);
+        return errorResponse(
+            res,
+            error?.message || 'Something went wrong',
+            error?.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
+            error?.name || null,
+            error?.explanation || null
+        );
+    }
+}
+
 
 export default {
     createWorkspace,
@@ -232,5 +293,7 @@ export default {
     updateWorkSpace,
     addChannel,
     addMember,
-    getAllWorkspacesByUserId
+    getAllWorkspacesByUserId,
+    varifyJoinCode,
+    joinWorkspace
 };

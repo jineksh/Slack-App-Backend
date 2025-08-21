@@ -67,7 +67,7 @@ class WorkSpaceService extends CrudService {
 
     async getWorkSpacebyId(workspaceId, userId) {
         try {
-            const workspace = await this.repository.get(workspaceId);
+            const workspace = await this.repository.getWorkspaceByDetails(workspaceId);
 
             const validUser = workspace.members.some((member) => member._id == userId);
 
@@ -185,6 +185,52 @@ class WorkSpaceService extends CrudService {
                 throw error;
             }
             throw new AppError("Failed to get workspaces", 500, "GetWorkspacesByUserIdError", error);
+        }
+    }
+
+    async varifyJoinCode(workspaceId, joincode) {
+        try{
+            const workspace = await this.repository.get(workspaceId);
+            if (!workspace) {
+                throw new AppError("Workspace not found", 404, "WorkspaceNotFoundError");
+            }
+            if (workspace.joincode.toLowerCase() !== joincode.toLowerCase()) {
+                throw new AppError("Invalid join code", 400, "InvalidJoinCode");
+            }
+            return true;
+
+        }
+        catch (error) {
+            console.log(error);
+            if (error instanceof AppError) {
+                throw error;
+            }
+            throw new AppError("Failed to verify join code", 500, "JoinCodeVerificationError", error);
+        }
+    }
+
+    async joinWorkspace(workspaceId,joincode, userId) {
+        try {
+            const workspace = await this.repository.get(workspaceId);
+            if (!workspace) {
+                throw new AppError("Workspace not found", 404, "WorkspaceNotFoundError");
+            }
+
+            console.log(workspace.joincode, joincode);
+           
+            if( workspace.joincode !== joincode) {
+                throw new AppError("Invalid join code", 400, "InvalidJoinCode");
+            }
+
+            const updatedWorkspace = await this.repository.addMemberToWorkSpace(workspaceId, userId);
+            return updatedWorkspace;
+
+        } catch (error) {
+            console.log(error);
+            if (error instanceof AppError) {
+                throw error;
+            }
+            throw new AppError("Failed to join workspace", 500, "JoinWorkspaceError", error);
         }
     }
 
