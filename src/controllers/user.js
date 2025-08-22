@@ -43,8 +43,24 @@ async function  login(req,res) {
         );
     }
 }
+async function verify(req, res) {
+    try {
+        const { code } = req.params;
+        const user = await service.varifyUser(code);
+        return successResponse(res, user, "User verified successfully", StatusCodes.OK);
+    } catch (error) {
+        return errorResponse(
+            res,
+            error.message,
+            error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
+            error.name || "VerificationError",
+            error.details || undefined
+        );
+    }
+}
 
 export default {
     signUp,
-    login
+    login,
+    verify
 }

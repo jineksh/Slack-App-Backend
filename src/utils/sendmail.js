@@ -1,6 +1,6 @@
 import transporter from '../config/mail.js';
 
-const sendMail = async (to, subject, text) => {
+export const sendMail = async (to, subject, text) => {
     try {
         const mailOptions = {
             from: process.env.GMAIL_USER,
@@ -16,4 +16,4 @@ const sendMail = async (to, subject, text) => {
     }
 }
 
-export default  sendMail;
+

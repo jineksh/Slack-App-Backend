@@ -8,6 +8,7 @@ import connectDb from './config/db.js';
 import config from './config/server.js';
 import roomHandler from './controllers/channeljoin.js';
 import messageHandler from './controllers/socketapis.js';
+import userController from './controllers/user.js';
 import globalErrorHandler from './middlewares/error.js'
 import apiRoutes from './routes/index.js'
 import emailWorker from './worker/mail.js';
@@ -27,6 +28,8 @@ const startserver = async() =>{
         res.send('pong');
         next();
     })
+
+    app.get('/varify/:code',userController.verify);
 
     app.use('/api',apiRoutes);
     app.use(globalErrorHandler);

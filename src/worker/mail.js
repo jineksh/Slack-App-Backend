@@ -1,7 +1,7 @@
 import { Worker } from 'bullmq'
 
 import redisConnection from '../config/redis.js';
-import sendMail from '../utils/sendmail.js';
+import {sendMail} from '../utils/sendmail.js';
 
 
 
