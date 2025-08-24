@@ -5,7 +5,8 @@ const roomHandler = async(io,Socket)=>{
         const roomId = data.channel;
         Socket.join(roomId);
         console.log(`user joined a channel ${roomId}`);
-        cb({
+        cb?.({
+            data : roomId,
             message:'Joined a Room',
             sender:Socket.id,
         })

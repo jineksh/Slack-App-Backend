@@ -14,7 +14,8 @@ class messsageRepo extends CrudRepo {
             const messages = await Message.
                 find(params).
                 skip((page - 1) * limit).
-                sort({ createdAt: -1 }).
+                limit(limit).
+                sort({ createdAt: 1 }).
                 populate('sender', 'name email avatar');
 
             return messages;

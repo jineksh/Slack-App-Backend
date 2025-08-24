@@ -7,11 +7,11 @@ const service = new messageService();
 
 const getPaginatedMessages = async (req,res) => {
     try {
+        const {page,limit} = req.query
         const message = await service.getPaginatedMessages({
             channel : req.params.channelId
         },
-        req.body.page,
-        req.body.limit);
+        page,limit);
 
         return successResponse(
             res,

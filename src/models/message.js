@@ -12,9 +12,8 @@ const messageSchema = new mongoose.Schema({
         required: true
     },
     content: {
-        type: String,
-        required: [true, 'Message content is required'],
-        trim: true
+        body: { type: String, required: true },
+        image: { type: String, default: null }
     },
     createdAt: {
         type: Date,
